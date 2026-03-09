@@ -94,11 +94,7 @@ class EmployeeAPI(APIView):
                 status=status.HTTP_200_OK
             )
 
-        except Employee.DoesNotExist:
-            return Response(
-                {"error": "Employee not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+        except Employee.DoesNotExist:return Response({"error": "Employee not found"},status=status.HTTP_404_NOT_FOUND)
 
         except Exception as e:
             return Response(
