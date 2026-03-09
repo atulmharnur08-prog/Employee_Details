@@ -19,11 +19,7 @@ class EmployeeAPI(APIView):
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        except Exception as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        except Exception as e:return Response({"error": str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     # GET ALL EMPLOYEE OR SINGLE EMPLOYEE
@@ -41,17 +37,9 @@ class EmployeeAPI(APIView):
             serializer = EmployeeSerializer(employee)
             return Response(serializer.data, status=status.HTTP_200_OK)
 
-        except Employee.DoesNotExist:
-            return Response(
-                {"error": "Employee not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+        except Employee.DoesNotExist:return Response({"error": "Employee not found"},status=status.HTTP_404_NOT_FOUND)
 
-        except Exception as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        except Exception as e:return Response({"error": str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     # UPDATE EMPLOYEE
@@ -68,36 +56,18 @@ class EmployeeAPI(APIView):
 
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        except Employee.DoesNotExist:
-            return Response(
-                {"error": "Employee not found"},
-                status=status.HTTP_404_NOT_FOUND
-            )
+        except Employee.DoesNotExist:return Response({"error": "Employee not found"},status=status.HTTP_404_NOT_FOUND)
 
-        except Exception as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        except Exception as e: return Response({"error": str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     # DELETE EMPLOYEE
     def delete(self, request, id):
-
         try:
             employee = Employee.objects.get(id=id)
-
             employee.delete()
-
-            return Response(
-                {"message": "Employee deleted successfully"},
-                status=status.HTTP_200_OK
-            )
+            return Response({"message": "Employee deleted successfully"},status=status.HTTP_200_OK)
 
         except Employee.DoesNotExist:return Response({"error": "Employee not found"},status=status.HTTP_404_NOT_FOUND)
 
-        except Exception as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+        except Exception as e:return Response({"error": str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
