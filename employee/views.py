@@ -18,7 +18,6 @@ class EmployeeAPI(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
@@ -66,7 +65,6 @@ class EmployeeAPI(APIView):
 
         try:
             employee = Employee.objects.get(id=id)
-
             serializer = EmployeeSerializer(employee, data=request.data)
 
             if serializer.is_valid():
