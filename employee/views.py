@@ -5,9 +5,11 @@ from rest_framework import status
 from .models import Employee
 from .serializers import EmployeeSerializer
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 class EmployeeAPI(APIView):
-
+    permission_classes = [IsAuthenticated]
     # CREATE EMPLOYEE
     def post(self, request):
         try:
@@ -33,8 +35,13 @@ class EmployeeAPI(APIView):
             # GET ALL
             if id is None:
                 employees = Employee.objects.all()
-                serializer = EmployeeSerializer(employees, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                 # Apply pagination
+                paginator = PageNumberPagination()
+                paginator.page_size = 2  # default page size, can be overridden
+                result_page = paginator.paginate_queryset(employees, request)
+                serializer = EmployeeSerializer(result_page, many=True)
+                #return Response(serializer.data, status=status.HTTP_200_OK)
+                return paginator.get_paginated_response(serializer.data)
 
             # GET BY ID
             employee = Employee.objects.get(id=id)
