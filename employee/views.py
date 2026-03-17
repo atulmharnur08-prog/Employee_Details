@@ -36,7 +36,7 @@ class EmployeeAPI(APIView):
                 result_page = paginator.paginate_queryset(employees, request)
                 serializer = EmployeeSerializer(result_page, many=True)
                 #return Response(serializer.data, status=status.HTTP_200_OK)
-                return paginator.get_paginated_response(serializer.data)
+                return paginator.get_paginated_response(serializer.data, status=status.HTTP_200_OK)
 
             # GET BY ID
             employee = Employee.objects.get(id=id)
